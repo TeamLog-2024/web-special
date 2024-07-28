@@ -1,10 +1,10 @@
 import express from 'express';
-import db from '../db';
+import db from '../db.js';
 
 const router = express.Router();
 
 router.use(express.json());
-router.use(express.urlencoded());
+router.use(express.urlencoded({extended: true}));
 
 router.post('/', (req, res) => {
   const { username, password } = req.body;
@@ -17,7 +17,7 @@ router.post('/', (req, res) => {
     const count = results[0].count;
 
     if(count === 0) {
-      const query2 = `INSERT INTO userInfo (username, password) VALUES = (?, ?)`;
+      const query2 = `INSERT INTO userInfo (username, password) VALUES (?, ?)`;
       db.query(query2, [username, password], (err, results, fields) => {
         if(err) console.log(err);
         console.log('query2 worked', results);
